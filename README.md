@@ -1,81 +1,85 @@
-Library Management System
-This Python program implements a Library Management System, enabling the management of books for both the library and its users. The system allows users to borrow, return, and track books, while providing library administrators with essential book inventory features.
+Library Management System (Updated Version)
+This Python program implements a Library Management System (LMS), allowing both library administrators and users to manage books. It includes the ability to borrow, return, and track books, while also providing essential inventory management features for the library.
 
 Features
 Library Class
-
 Initialization:
 
-Creates a library_books.txt file to store all available books. If the file already exists, it does not create a new one.
-Add Book (library_add_book):
+Creates a library_books.txt file to store all available books in the library. If the file already exists, it doesn't create a new one.
+Methods:
 
-Adds new books to the library.
-Checks for duplicates (case-insensitive) before adding.
+library_add_book(self, book_name):
+
+Adds new books to the library inventory, ensuring that there are no duplicates (case-insensitive).
+Checks if the book is already available or borrowed by someone.
+If the book is available, it adds it to the library_books.txt file.
 Usage:
 
 python
 Copy code
 lib = Library()
 lib.library_add_book("The Great Gatsby")
-List Books (lib_books_list):
+lib_books_list(self):
 
-Displays all books currently in the library.
+Lists all the books currently in the library (whether available or unavailable).
 Usage:
 
 python
 Copy code
 lib.lib_books_list()
-Library Details (lib_detail):
+lib_detail(self):
 
-Shows statistics: total books, available books, and unavailable books (currently borrowed).
+Displays library statistics: total number of books, available books, and unavailable books (currently borrowed).
 Usage:
 
 python
 Copy code
 lib.lib_detail()
 Book Users Class
-
-Inherits from the Library class.
+The Book_users class inherits from the Library class and adds functionalities specific to users, such as borrowing and returning books.
 
 Initialization:
 
-Creates a user-specific file named {username}_books.txt to track borrowed books.
-Borrow Book (add_book):
+Creates a user-specific file (named {username}_books.txt) to track borrowed books.
+If the user’s file does not exist, it is created automatically.
+Methods:
 
-Allows users to borrow books, marking them as taken in library_books.txt.
-Checks if the book is already borrowed and informs the user.
+add_book(self, book_name):
+
+Allows a user to borrow a book, marking it as taken in library_books.txt and adding it to the user's borrowed books list in {username}_books.txt.
+It checks if the book is already borrowed (either by the user or another) before issuing it.
 Usage:
 
 python
 Copy code
 user = Book_users("Alice")
 user.add_book("The Great Gatsby")
-List Borrowed Books (book_list):
+book_list(self):
 
-Displays all books borrowed by the user.
+Displays all the books borrowed by the user.
 Usage:
 
 python
 Copy code
 user.book_list()
-Count Borrowed Books (book_counts):
+book_counts(self):
 
-Counts and displays the total number of books borrowed by the user.
+Counts and displays the total number of books the user has borrowed.
 Usage:
 
 python
 Copy code
 user.book_counts()
-Return Book (book_return):
+book_return(self, book_name):
 
-Allows users to return borrowed books, updating both their records and the library’s inventory.
+Allows users to return borrowed books. It updates both the user's record and the library's inventory.
 Usage:
 
 python
 Copy code
 user.book_return("The Great Gatsby")
 Example Usage
-Here’s a step-by-step example of how to use the system:
+Here’s a step-by-step example demonstrating how to use the Library Management System:
 
 python
 Copy code
@@ -106,8 +110,39 @@ user.book_return("The Great Gatsby")
 
 # Step 9: View library details after the book return
 lib.lib_detail()
-Included Files
-Additionally, a library_books.txt file is provided with a list of 10 books, allowing users to start using the system immediately without needing to add books manually.
+Key Updates and Features
+Preventing Duplicate Book Entries:
 
+In the library_add_book method, the program now checks if the book is already present in the library (case-insensitive), and it also verifies if a book has already been borrowed by someone. This prevents the addition of duplicate books.
+Example:
+
+python
+Copy code
+lib.library_add_book("The Great Gatsby")
+If "The Great Gatsby" is already in the library or borrowed, it will not be added again.
+
+Improved Borrowing Logic:
+
+When a user attempts to borrow a book using add_book(), the program checks if the book is available and not already borrowed by another user. If the book is already borrowed, the program will inform the user and prevent borrowing.
+Example:
+
+python
+Copy code
+user.add_book("The Great Gatsby")
+Book Return Functionality:
+
+The book_return() method has been updated to ensure that when a book is returned, the user’s borrowed books list ({username}_books.txt) and the library’s inventory (library_books.txt) are both updated correctly.
+This method now ensures the proper update of the library’s inventory after a book is returned, making the book available again.
+Example:
+
+python
+Copy code
+user.book_return("The Great Gatsby")
+Improved Data Integrity:
+
+When a book is returned, the book_return() method checks that the user is actually borrowing the book before attempting to return it. This ensures that a book can only be returned if the user has previously borrowed it.
+Included Files
+library_books.txt: A file that contains the list of available books in the library. If the file doesn’t exist, it is created automatically when the library instance is initialized.
+{username}_books.txt: A user-specific file that tracks the books borrowed by each user. If it doesn’t exist, it is created when the user instance is initialized.
 Conclusion
-This Library Management System provides a clear and organized way to manage books and user interactions. It effectively demonstrates file handling, user input, and basic object-oriented programming concepts in Python.
+This Library Management System provides a straightforward and organized way to manage books and user interactions in a library setting. It includes file handling, user input, and basic object-oriented programming principles. The system now also ensures that book borrowing and returning are accurately managed with proper data integrity
